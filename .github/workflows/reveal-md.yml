@@ -29,7 +29,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: 'jskyzero/design.jskyzero.com'
-        path: '../'
+        path: ${{env.SOURCE_DIR}}
     - name: 处理文件
       run: ./move.sh
 
