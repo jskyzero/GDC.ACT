@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [20.x]
     env:
       SOURCE_DIR: "./design.jskyzero.com"       # 源目录
       TARGET_DIR: "./output"                    # 目标目录
@@ -38,12 +38,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: 安装 reveal-md
-      run: npm install reveal-md
+      run: npm install -g reveal-md
 
 
     - name : Reveal-md Build
       # run: ./node_modules/.bin/reveal-md "$TARGET_DIR/$FILE_NAME" --assets-dir=assets --css theme.css --static _site
-      run: ./node_modules/.bin/reveal-md "$TARGET_DIR/$FILE_NAME" --static _site
+      run: reveal-md "$TARGET_DIR/$FILE_NAME" --static _site
 
     - name: 上传资产
       uses: actions/upload-pages-artifact@v3
