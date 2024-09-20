@@ -8,6 +8,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  repository_dispatch:
+    types: [trigger-build]  # 自定义事件类型
 
 jobs:
   build:
