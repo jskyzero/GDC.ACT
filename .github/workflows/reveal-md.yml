@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - name: 拉取工程
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: 拉取资产
       uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
       run: ./move.sh
 
     - name: 设置 Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - name: 安装 reveal-md
