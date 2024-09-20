@@ -25,11 +25,12 @@ jobs:
     - name: 拉取工程
       uses: actions/checkout@v2
 
-    - name: 处理文件
+    - name: 拉取资产
       uses: actions/checkout@v4
       with:
         repository: 'jskyzero/design.jskyzero.com'
         path: '../'
+    - name: 处理文件
       run: ./move.sh
 
     - name: 设置 Node.js ${{ matrix.node-version }}
