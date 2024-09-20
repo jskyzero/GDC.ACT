@@ -17,9 +17,9 @@ jobs:
       matrix:
         node-version: [14.x]
     env:
-      SOURCE_DIR: "../design.jskyzero.com"     # 源目录
-      TARGET_DIR: "./output"                   # 目标目录
-      FILE_NAME: "2023-11-13-ACT_with_GDC.md"  # 要查找的文件名
+      SOURCE_DIR: "./design.jskyzero.com"       # 源目录
+      TARGET_DIR: "./output"                    # 目标目录
+      FILE_NAME: "2023-11-13-ACT_with_GDC.md"   # 要查找的文件名
 
     steps:
     - name: 拉取工程
