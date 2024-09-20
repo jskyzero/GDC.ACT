@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 设置要扫描的目录和目标目录
-SOURCE_DIR="../design.jskyzero.com"  # 源目录
-TARGET_DIR="./output"   # 目标目录
-FILE_NAME="2023-11-13-ACT_with_GDC.md" # 要查找的文件名
+: "${SOURCE_DIR:="../design.jskyzero.com"}"     # 源目录
+: "${TARGET_DIR:="./output"}"                   # 目标目录
+: "${FILE_NAME:="2023-11-13-ACT_with_GDC.md"}"  # 要查找的文件名
 
 # 创建目标目录
 rm -rf "$TARGET_DIR"
