@@ -44,8 +44,8 @@ jobs:
 
 
     - name : Reveal-md Build
-      # run: ./node_modules/.bin/reveal-md "$TARGET_DIR/$FILE_NAME" --assets-dir=assets --css theme.css --static _site
-      run: reveal-md "$TARGET_DIR/$FILE_NAME" --static _site
+      # run: reveal-md "$TARGET_DIR/$FILE_NAME" --assets-dir=assets --css theme.css --static _site
+      run: reveal-md "$TARGET_DIR/$FILE_NAME" --css theme.css --static _site
 
     - name: 上传资产
       uses: actions/upload-pages-artifact@v3
