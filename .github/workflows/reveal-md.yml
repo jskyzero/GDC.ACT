@@ -59,3 +59,5 @@ jobs:
         publish_dir: ./_site  # 指定要推送的目录
         publish_branch: gh-pages  # 指定要推送到的分支
         cname: act.jsky.wiki
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
