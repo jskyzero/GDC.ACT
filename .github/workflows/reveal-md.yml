@@ -58,3 +58,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./_site  # 指定要推送的目录
         publish_branch: gh-pages  # 指定要推送到的分支
+        cname: act.jsky.wiki
