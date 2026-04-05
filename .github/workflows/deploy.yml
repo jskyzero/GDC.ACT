@@ -23,8 +23,21 @@ jobs:
         with:
           node-version: 20
           # cache: 'npm'
+          # 不要在这里写 cache: 'npm'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          # npm 缓存目录在 Linux 上的默认路径
+          path: ~/.npm
+          # 使用 package.json 的哈希值作为缓存 Key
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package.json') }}
+          # 如果 key 没命中，尝试恢复最近的缓存
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-
 
       - name: Install dependencies
+        # 即使没有 lock 文件，npm 也会尝试从 ~/.npm 缓存中读取包
         run: npm install
 
       - name: 准备资源并构建
