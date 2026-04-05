@@ -1,120 +1,121 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@300;400;600&display=swap');
 
 :root {
-  --slidev-theme-primary: #0052CC;
+  --slidev-theme-primary: #0052CC; /* 商务蓝 */
   --text-main: #1A1D23;
   --text-muted: #4A5568;
   --bg-main: #FFFFFF;
 }
 
-/* --- 1. 强制页面容器锁定 (关键：减少 Padding 释放空间) --- */
+/* --- 1. 全局容器：极致空间利用 --- */
 .slidev-layout {
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
   width: 100% !important;
-  padding: 2rem 3rem !important; /* 减少上下间距，给下方文字留位 */
+  /* 极致压缩顶部 Padding (1rem)，左右保持 3rem，底部留空间给页码 */
+  padding: 1rem 3rem 3rem 3rem !important; 
   overflow: hidden !important; 
   background-color: var(--bg-main);
   box-sizing: border-box !important;
+  justify-content: flex-start; /* 默认靠顶 */
 }
 
-/* --- 2. 首页 (post) 垂直居中彻底解决方案 --- */
+/* --- 2. 首页 (layout: post) 居中彻底修复 --- */
 .slidev-layout.post {
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important; /* 核心：垂直居中 */
-  align-items: center !important;     /* 核心：水平居中 */
+  /* 强制垂直居中和水平居中 */
+  justify-content: center !important; 
+  align-items: center !important;     
   text-align: center !important;
-  min-height: 100% !important;
-}
-
-/* 首页标题样式 */
-.slidev-layout.post h1 {
-  font-size: 4rem !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.2 !important;
-  color: var(--slidev-theme-primary) !important;
-}
-
-.slidev-layout.post p {
-  margin-top: 1rem !important;
-  font-size: 1.5rem !important;
-}
-
-/* --- 3. 解决图片占位过大导致下方文字消失 --- */
-/* 
-   我们将图片限高压缩到 38vh (约屏幕高度的 1/3 多一点) 
-   这样可以稳稳放下标题 (15vh) + 图片 (38vh) + 下方文字 (20vh) + 间距 
-*/
-.slidev-layout img {
-  display: block;
-  margin: 1rem auto !important;
-  max-height: 38vh !important;  /* 核心：压缩高度 */
-  max-width: 100% !important;
-  object-fit: contain !important;
-  flex-shrink: 1 !important;    /* 核心：如果空间不够，图片第一个缩小 */
-  
-  border-radius: 8px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* 标题颜色与间距收缩 */
-.slidev-layout h3 {
-  color: var(--slidev-theme-primary) !important;
-  font-size: 1.6rem !important;
-  margin-top: 0 !important;
-  margin-bottom: 0.5rem !important;
-  flex-shrink: 0 !important;
-}
-
-/* 解决下方文字：强制让段落显示在图片下方 */
-.slidev-layout p, .slidev-layout ul {
-  font-size: 1rem !important;
-  color: var(--text-muted) !important;
-  margin-bottom: 0.5rem !important;
-  line-height: 1.5 !important;
-  flex-shrink: 0 !important; /* 文字不收缩，确保必须显示 */
-}
-
-/* --- 4. 进度条 (Progress Bar) 底部强制置顶 --- */
-.slidev-progress {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0;
-  right: 0;
-  height: 6px !important;
-  background: #f0f0f0 !important;
-  z-index: 9999 !important;
-}
-
-.slidev-progress-bar {
-  background: var(--slidev-theme-primary) !important;
+  padding: 0 !important; /* 首页不需要边距干扰居中 */
   height: 100% !important;
 }
 
-/* --- 5. 页码修正 (配合 global-bottom.vue) --- */
-/* 提高页码层级，并确保它在最右下角且不被进度条挡住 */
-footer, .absolute.bottom-4 {
-  position: absolute !important;
-  bottom: 1.2rem !important; /* 向上提一点，避开 6px 的进度条 */
-  right: 2rem !important;
-  z-index: 9998 !important;
-  font-size: 0.8rem !important;
-  color: #94A3B8 !important;
+/* 首页大标题 */
+.slidev-layout.post h1 {
+  font-size: 4rem !important;
+  color: var(--slidev-theme-primary) !important;
+  margin: 0 0 1rem 0 !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
 }
 
-/* --- 6. 章节页适配 (layout: section) --- */
+/* 首页副标题/文字 */
+.slidev-layout.post p {
+  font-size: 1.5rem !important;
+  color: var(--text-muted) !important;
+  margin: 0 !important;
+}
+
+/* --- 3. 普通内容页标题优化 (h3) --- */
+/* 让标题贴合顶部，占用最少空间 */
+.slidev-layout h3 {
+  color: var(--slidev-theme-primary) !important;
+  font-size: 1.4rem !important;
+  margin: 0 0 0.5rem 0 !important; /* 极小的下边距 */
+  padding: 0 !important;
+  flex-shrink: 0 !important; /* 禁止标题缩放 */
+  border-left: 4px solid var(--slidev-theme-primary);
+  padding-left: 0.8rem !important;
+}
+
+/* --- 4. 图片自适应逻辑 (解决 3:2 / 1:1 溢出) --- */
+/* 
+   将 max-height 设定为 35vh。
+   这样在 16:9 的屏幕上，图片只占约 1/3，
+   剩下 2/3 的空间分给标题 (10%) 和下方文字 (50%)，这是最稳妥的排版。
+*/
+.slidev-layout img {
+  display: block;
+  margin: 0.5rem auto !important;
+  max-height: 35vh !important;  /* 极致限高，确保下方文字可见 */
+  max-width: 100% !important;
+  object-fit: contain !important;
+  flex-shrink: 1 !important;    /* 空间不足时图片第一个缩小 */
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* --- 5. 文字内容区 --- */
+.slidev-layout p, .slidev-layout ul, .slidev-layout li {
+  font-size: 0.95rem !important; /* 略微缩小文字以容纳更多内容 */
+  color: var(--text-muted) !important;
+  margin-bottom: 0.4rem !important;
+  line-height: 1.5 !important;
+  flex-shrink: 0 !important; /* 强制显示文字，不许收缩 */
+}
+
+/* --- 6. 章节转场页 (layout: section) --- */
 .slidev-layout.section {
   justify-content: center !important;
+  align-items: flex-start !important;
   border-left: 20px solid var(--slidev-theme-primary) !important;
   background-color: #F8FAF9 !important;
+  padding-left: 5rem !important;
 }
 
 .slidev-layout.section h2 {
   font-size: 4rem !important;
+  margin: 0 !important;
   color: var(--text-main) !important;
-  text-align: left !important;
+}
+
+/* --- 7. 页码位置修正 --- */
+/* 放置在右下角，确保在白色背景下清晰 */
+footer, .absolute.bottom-4 {
+  position: absolute !important;
+  bottom: 1.5rem !important;
+  right: 2.5rem !important;
+  z-index: 999 !important;
+  font-size: 0.85rem !important;
+  color: #94A3B8 !important;
+  font-family: monospace;
+}
+
+/* 移除所有可能存在的进度条残留 */
+.slidev-progress, .slidev-progress-bar {
+  display: none !important;
 }
