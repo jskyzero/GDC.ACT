@@ -24,6 +24,18 @@ fi
 # 拷贝并重命名为 slides.md
 cp "$found_file" "./$TARGET_MD"
 echo "已生成: ./$TARGET_MD"
+# 【核心】物理移除 HTML 注释标签，让 Slidev 看到里面的 ---
+# 匹配仅包含 <!-- 或 --> 的行并删除它们
+sed -i '/^<!--$/d' "./$TARGET_MD"
+sed -i '/^-->$/d' "./$TARGET_MD"
+
+# 3. 如果你的注释写在同一行（例如 <!-- --- -->），使用以下正则：
+# sed -i 's/<!--//g' "./$TARGET_MD"
+# sed -i 's/-->//g' "./$TARGET_MD"
+
+echo "HTML 注释已移除，Slidev 分页已恢复。"
+
+
 
 # 4. 扫描 slides.md 中的图片并拷贝到 public 目录
 # 使用 grep 提取 ![](/assets/...) 里的路径

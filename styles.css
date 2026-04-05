@@ -26,7 +26,7 @@
    不管 layout 是 default 还是 post，只要它是第一页 (:first-of-type)，
    就强制执行全屏垂直水平居中。
 */
-.slidev-page-1 .slidev-layout.default {
+.slidev-layout.main {
   justify-content: center !important; /* 垂直居中 */
   align-items: center !important;     /* 水平居中 */
   text-align: center !important;
@@ -36,7 +36,7 @@
 }
 
 /* 首页标题样式 */
-.slidev-page-1 .slidev-layout.default h1 {
+.slidev-layout.main h1 {
   font-size: 4.2rem !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
@@ -45,7 +45,7 @@
 }
 
 /* 首页副标题/描述 */
-.slidev-page-1 .slidev-layout.default p {
+.slidev-layout.main p {
   font-size: 1.6rem !important;
   color: var(--text-muted) !important;
   margin: 0 !important;
