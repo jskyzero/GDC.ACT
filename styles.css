@@ -14,7 +14,7 @@
   height: 100% !important;
   width: 100% !important;
   /* 极致压缩顶部边距 (0.8rem)，确保标题靠顶，给下方留出最大空间 */
-  padding: 0.8rem 2rem 0rem 2rem !important; 
+  padding: 0.8rem 1rem 0rem 1rem !important; 
   overflow: hidden !important; 
   background-color: var(--bg-main);
   box-sizing: border-box !important;
@@ -26,9 +26,7 @@
    不管 layout 是 default 还是 post，只要它是第一页 (:first-of-type)，
    就强制执行全屏垂直水平居中。
 */
-.slidev-layout:first-of-type,
-.slidev-layout.post,
-.slidev-layout.cover {
+.slidev-page-1 .slidev-layout.default {
   justify-content: center !important; /* 垂直居中 */
   align-items: center !important;     /* 水平居中 */
   text-align: center !important;
@@ -38,7 +36,7 @@
 }
 
 /* 首页标题样式 */
-.slidev-layout:first-of-type h1 {
+.slidev-page-1 .slidev-layout.default h1 {
   font-size: 4.2rem !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
@@ -47,7 +45,7 @@
 }
 
 /* 首页副标题/描述 */
-.slidev-layout:first-of-type p {
+.slidev-page-1 .slidev-layout.default p {
   font-size: 1.6rem !important;
   color: var(--text-muted) !important;
   margin: 0 !important;
@@ -56,7 +54,7 @@
 /* --- 3. 普通内容页标题 (h3) 置顶 --- */
 .slidev-layout h3 {
   color: var(--slidev-theme-primary) !important;
-  font-size: 1.4rem !important;
+  font-size: 2rem !important;
   margin: 0 0 0.4rem 0 !important; /* 紧凑间距 */
   padding: 0 !important;
   flex-shrink: 0 !important;
@@ -72,8 +70,8 @@
 */
 .slidev-layout img {
   display: block;
-  margin: 0.4rem auto !important;
-  max-height: 35vh !important;  /* 核心：再次压缩高度，确保文字不溢出 */
+  margin: 0rem auto !important;
+  max-height: 40vh !important;  /* 核心：再次压缩高度，确保文字不溢出 */
   max-width: 95% !important;
   object-fit: contain !important;
   flex-shrink: 1 !important;    /* 空间不足时优先缩小图片 */
