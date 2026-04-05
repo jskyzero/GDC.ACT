@@ -1,117 +1,120 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Inter:wght@300;400;600&display=swap');
 
 :root {
-  --slidev-theme-primary: #0052CC; /* 商务蓝 */
+  --slidev-theme-primary: #0052CC;
   --text-main: #1A1D23;
   --text-muted: #4A5568;
   --bg-main: #FFFFFF;
 }
 
-/* --- 1. 基础布局：强制锁定容器高度，防止溢出 --- */
-#slide-container, .slidev-layout {
-  height: 100%;
-  width: 100%;
-  padding: 3rem !important;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden !important; /* 核心：禁止产生滚动条 */
+/* --- 1. 强制页面容器锁定 (关键：减少 Padding 释放空间) --- */
+.slidev-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding: 2rem 3rem !important; /* 减少上下间距，给下方文字留位 */
+  overflow: hidden !important; 
   background-color: var(--bg-main);
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
-/* --- 2. 标题颜色修复与统一 --- */
-.slidev-layout h1, .slidev-layout h2, .slidev-layout h3 {
-  color: var(--slidev-theme-primary) !important;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  margin-top: 0;
-  flex-shrink: 0; /* 确保标题不会被挤压 */
-}
-
-.slidev-layout h1 { font-weight: 800; font-size: 3.5rem; }
-.slidev-layout h2 { font-weight: 700; font-size: 2.5rem; }
-.slidev-layout h3 { font-weight: 600; font-size: 1.5rem; border-left: 4px solid var(--slidev-theme-primary); padding-left: 1rem; margin-bottom: 0.5rem; }
-
-/* --- 3. 首页 (post) 风格定制：垂直水平居中 --- */
+/* --- 2. 首页 (post) 垂直居中彻底解决方案 --- */
 .slidev-layout.post {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-image: radial-gradient(#E2E8F0 0.5px, transparent 0.5px);
-  background-size: 24px 24px;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important; /* 核心：垂直居中 */
+  align-items: center !important;     /* 核心：水平居中 */
+  text-align: center !important;
+  min-height: 100% !important;
 }
 
-/* --- 4. 彻底解决垂直溢出 (弹性收缩方案) --- */
+/* 首页标题样式 */
+.slidev-layout.post h1 {
+  font-size: 4rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+  color: var(--slidev-theme-primary) !important;
+}
+
+.slidev-layout.post p {
+  margin-top: 1rem !important;
+  font-size: 1.5rem !important;
+}
+
+/* --- 3. 解决图片占位过大导致下方文字消失 --- */
 /* 
-   我们将图片包裹在一个自适应的容器中，或者直接控制 img。
-   flex-shrink: 1 允许图片在文字过多时自动变小。
+   我们将图片限高压缩到 38vh (约屏幕高度的 1/3 多一点) 
+   这样可以稳稳放下标题 (15vh) + 图片 (38vh) + 下方文字 (20vh) + 间距 
 */
 .slidev-layout img {
   display: block;
-  margin: auto; /* 在垂直方向上尽量居中 */
+  margin: 1rem auto !important;
+  max-height: 38vh !important;  /* 核心：压缩高度 */
+  max-width: 100% !important;
+  object-fit: contain !important;
+  flex-shrink: 1 !important;    /* 核心：如果空间不够，图片第一个缩小 */
   
-  /* 调整 max-height 到 42vh 左右是黄金比例 */
-  max-height: 42vh !important; 
-  max-width: 100%;
-  object-fit: contain;
-  
-  flex-grow: 1;   /* 占用剩余空间 */
-  flex-shrink: 1; /* 核心：如果空间不足，优先缩小图片 */
-  
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #E2E8F0;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* 调整列表和段落的间距 */
-.slidev-layout p, .slidev-layout ul, .slidev-layout li {
-  color: var(--text-muted);
-  flex-shrink: 0; /* 文字不收缩，确保可读 */
-  margin-bottom: 0.5rem;
+/* 标题颜色与间距收缩 */
+.slidev-layout h3 {
+  color: var(--slidev-theme-primary) !important;
+  font-size: 1.6rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem !important;
+  flex-shrink: 0 !important;
 }
 
-/* --- 5. 进度条 (Progress Bar) 强制可见方案 --- */
-/* 
-   针对 Slidev 的进度条元素进行深度定制。
-   由于 Slidev 的进度条可能在不同的层级，我们用更广的覆盖面。
-*/
-::v-deep .slidev-progress, 
-.slidev-progress,
-[v-if="progress"] {
-  position: absolute !important;
+/* 解决下方文字：强制让段落显示在图片下方 */
+.slidev-layout p, .slidev-layout ul {
+  font-size: 1rem !important;
+  color: var(--text-muted) !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.5 !important;
+  flex-shrink: 0 !important; /* 文字不收缩，确保必须显示 */
+}
+
+/* --- 4. 进度条 (Progress Bar) 底部强制置顶 --- */
+.slidev-progress {
+  position: fixed !important;
   bottom: 0 !important;
   left: 0;
   right: 0;
   height: 6px !important;
-  background: #eee !important;
-  z-index: 9999 !important; /* 确保在最顶层 */
+  background: #f0f0f0 !important;
+  z-index: 9999 !important;
 }
 
-::v-deep .slidev-progress-bar,
 .slidev-progress-bar {
   background: var(--slidev-theme-primary) !important;
   height: 100% !important;
-  transition: width 0.3s ease;
 }
 
-/* --- 6. 页码显示修复 (配合 global-bottom.vue) --- */
-/* 
-   确保页码不会被溢出的内容遮挡，并且在白色背景下清晰。
-*/
+/* --- 5. 页码修正 (配合 global-bottom.vue) --- */
+/* 提高页码层级，并确保它在最右下角且不被进度条挡住 */
 footer, .absolute.bottom-4 {
-  z-index: 1000;
-  color: var(--text-muted);
-  font-family: monospace;
+  position: absolute !important;
+  bottom: 1.2rem !important; /* 向上提一点，避开 6px 的进度条 */
+  right: 2rem !important;
+  z-index: 9998 !important;
+  font-size: 0.8rem !important;
+  color: #94A3B8 !important;
 }
 
-/* --- 7. 章节页适配 (layout: section) --- */
+/* --- 6. 章节页适配 (layout: section) --- */
 .slidev-layout.section {
-  justify-content: center;
-  align-items: flex-start;
-  border-left: 18px solid var(--slidev-theme-primary);
-  background: #F9FAFB;
+  justify-content: center !important;
+  border-left: 20px solid var(--slidev-theme-primary) !important;
+  background-color: #F8FAF9 !important;
 }
 
 .slidev-layout.section h2 {
-  font-size: 4rem;
+  font-size: 4rem !important;
   color: var(--text-main) !important;
+  text-align: left !important;
 }
