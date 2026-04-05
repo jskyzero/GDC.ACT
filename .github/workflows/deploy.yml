@@ -1,0 +1,42 @@
+name: Deploy Slidev ACT
+
+on:
+  push:
+    branches: [ master ]
+  repository_dispatch:
+    types: [trigger-build]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 拉取主博客资源
+        uses: actions/checkout@v4
+        with:
+          repository: 'jskyzero/design.jskyzero.com'
+          path: 'design.jskyzero.com'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: 准备资源并构建
+        run: |
+          chmod +x move.sh
+          ./move.sh
+          npm run build
+
+      - name: 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          cname: act.jsky.wiki
