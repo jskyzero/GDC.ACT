@@ -6,94 +6,89 @@
   --bg-main: #FFFFFF;
 }
 
-/* --- 1. 核心：强制对 layout: post 进行首页风格处理 --- */
-/* 
-   即便 layout 是 post，我们也将其渲染为“封面图”样式 
-*/
-.slidev-layout.post {
+/* --- 1. 强制幻灯片容器不溢出 --- */
+.slidev-layout {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 垂直居中核心 */
-  align-items: center;     /* 水平居中核心 */
-  text-align: center;
   height: 100%;
+  width: 100%;
+  overflow: hidden !important; /* 强制锁定，禁止出现滚动条 */
+  padding: 2.5rem 3rem !important;
   background-color: var(--bg-main);
+  box-sizing: border-box;
+}
+
+/* --- 2. 首页 (post) 垂直水平居中 --- */
+.slidev-layout.post {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   background-image: radial-gradient(#E2E8F0 0.5px, transparent 0.5px);
   background-size: 24px 24px;
 }
 
-.slidev-layout.post h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 4rem;
-  color: var(--text-main);
-  margin-bottom: 1rem;
-}
-
-.slidev-layout.post p {
-  font-size: 1.5rem;
-  color: #4A5568;
-}
-
-/* --- 2. 核心：彻底解决图片溢出问题 --- */
+/* --- 3. 彻底解决图片溢出 (核心方案) --- */
 /* 
-   针对所有幻灯片页面（包括普通页、section 页）
+   我们将图片高度进一步限制在 48vh，并给它周围留出安全边距。
+   同时限制所有内容的容器高度。
 */
 .slidev-layout img {
   display: block;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   
-  /* 58vh 是黄金比例：
-     确保在 16:9 的屏幕上，图片高度不超过屏幕的一半多一点，
-     从而给上方的标题和下方的文字留出足够的安全空间。
-  */
-  max-height: 58vh !important; 
-  width: auto;
+  /* 关键：降低比例到 48vh，确保加上标题和底部文字后不超过 100% */
+  max-height: 48vh !important; 
+  max-width: 90% !important;
   object-fit: contain;
   
-  border-radius: 12px;
+  flex-shrink: 1; /* 允许图片在空间不足时自动缩小 */
+  
+  border-radius: 8px;
   border: 1px solid #E2E8F0;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* --- 3. 普通页面排版优化 --- */
-.slidev-layout:not(.post):not(.section) {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* 普通内容页靠顶 */
-}
-
-/* 压缩标题间距，为图片腾出更多垂直空间 */
+/* 压缩标题和段落间距，为图片腾位置 */
 .slidev-layout h3 {
   margin-top: 0 !important;
-  margin-bottom: 0.5rem;
-  color: var(--slidev-theme-primary);
+  margin-bottom: 0.5rem !important;
+  flex-shrink: 0; /* 标题不缩放 */
 }
 
-/* --- 4. 章节转场页 (layout: section) 的适配 --- */
+.slidev-layout p, .slidev-layout ul {
+  margin-bottom: 0.5rem !important;
+  flex-shrink: 0; /* 文字不缩放 */
+}
+
+/* --- 4. 进度条 (Progress Bar) 强制可见方案 --- */
+/* 
+   将进度条置于最顶层，并给它一个明确的高度和位置
+*/
+.slidev-progress {
+  position: absolute;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+  height: 5px !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  z-index: 999 !important; /* 确保在最上层 */
+}
+
+.slidev-progress-bar {
+  height: 100% !important;
+  background: var(--slidev-theme-primary) !important;
+  box-shadow: 0 0 8px rgba(0, 82, 204, 0.4);
+  transition: width 0.3s ease-out !important;
+}
+
+/* --- 5. 章节页适配 --- */
 .slidev-layout.section {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  border-left: 16px solid var(--slidev-theme-primary);
   background: #F8FAF9;
+  border-left: 16px solid var(--slidev-theme-primary);
 }
 
 .slidev-layout.section h2 {
   font-size: 4rem;
-  color: var(--text-main) !important;
-}
-
-/* --- 进度条优化 --- */
-/* 进度条背景槽 */
-.slidev-progress {
-  height: 4px !important;
-  background: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* 进度条活动部分 */
-.slidev-progress-bar {
-  background: var(--slidev-theme-primary) !important; /* 使用你的商务蓝 */
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 增加丝滑的动画 */
+  margin: 0;
 }
